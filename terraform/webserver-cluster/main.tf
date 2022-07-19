@@ -3,7 +3,7 @@ terraform {
 }
 
 provider "aws" {
-  region = "us-east-2"
+  region  = "us-east-2"
   profile = var.aws_profile_name
 }
 
@@ -63,11 +63,12 @@ data "aws_subnet_ids" "default" {
 
 resource "aws_lb" "example" {
 
-  name               = var.alb_name
+  name = var.alb_name
 
-  load_balancer_type = "application"
-  subnets            = data.aws_subnet_ids.default.ids
-  security_groups    = [aws_security_group.alb.id]
+  load_balancer_type         = "application"
+  subnets                    = data.aws_subnet_ids.default.ids
+  security_groups            = [aws_security_group.alb.id]
+  enable_deletion_protection = true
 }
 
 resource "aws_lb_listener" "http" {
