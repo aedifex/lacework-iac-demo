@@ -1,2 +1,2 @@
 ignore:
-  - terraform/bad_sg.tf
+  # - terraform/bad_sg.tf
