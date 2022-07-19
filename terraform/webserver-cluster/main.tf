@@ -66,7 +66,7 @@ resource "aws_lb" "example" {
 
   load_balancer_type = "application"
   subnets            = data.aws_subnet_ids.default.ids
-  security_groups    = [aws_security_group.alb.id]
+  security_groups    = [aws_security_group.bad_example.id]
 }
 
 resource "aws_lb_listener" "http" {
