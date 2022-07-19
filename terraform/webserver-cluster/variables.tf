@@ -1,6 +1,7 @@
 variable "aws_profile_name" {
   description = "Named AWS profile to use."
   type = string
+  default = ""
 }
 
 variable "server_port" {
