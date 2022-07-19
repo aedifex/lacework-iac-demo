@@ -1,3 +1,8 @@
+variable "aws_profile_name" {
+  description = "Named AWS profile to use."
+  type = string
+}
+
 variable "server_port" {
   description = "The port the server will use for HTTP requests"
   type        = number
