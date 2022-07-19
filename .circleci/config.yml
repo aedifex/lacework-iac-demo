@@ -39,7 +39,7 @@ jobs:
 
       - run:
           name: generate plan file
-          command:
+          command: |
             terraform init
             terraform plan
 
