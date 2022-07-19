@@ -4,7 +4,6 @@ terraform {
 
 provider "aws" {
   region = "us-east-2"
-  profile = var.aws_profile_name
 }
 
 resource "aws_launch_configuration" "example" {
