@@ -40,6 +40,7 @@ jobs:
       - run:
           name: generate plan file
           command: |
+            cd terraform/webserver-cluster/
             terraform init
             terraform plan
 
