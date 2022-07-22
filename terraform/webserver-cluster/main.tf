@@ -62,7 +62,7 @@ data "aws_subnet_ids" "default" {
 
 resource "aws_lb" "example" {
 
-  name               = var.alb_name
+  name = var.alb_name
 
   load_balancer_type = "application"
   subnets            = data.aws_subnet_ids.default.ids
@@ -84,6 +84,7 @@ resource "aws_lb_listener" "http" {
       status_code  = 404
     }
   }
+  ssl_policy = "ELBSecurityPolicy-TLS-1-2-2017-01"
 }
 
 resource "aws_lb_target_group" "asg" {
