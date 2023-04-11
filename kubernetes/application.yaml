@@ -1,0 +1,104 @@
+apiVersion: apps/v1
+
+kind: DaemonSet
+metadata:
+  name: sample-application
+  labels:
+    tier: monitoring
+    app: sample-application
+spec:
+  selector:
+    matchLabels:
+      name: fantasticorp
+  updateStrategy:
+    type: RollingUpdate
+  template:
+    metadata:
+      labels:
+        name: fantasticorp
+    spec:
+      tolerations: 
+        - key: node-role.kubernetes.io/master
+          effect: NoSchedule
+      terminationGracePeriodSeconds: 20
+      hostPID: true
+      hostNetwork: true
+      containers:
+      - name: fantasticorp
+        image: fantasticorp/datacollector
+        imagePullPolicy: Always
+        resources:
+          requests:
+            cpu: "100m"
+            memory: "512Mi"
+        securityContext:
+          privileged: true
+        volumeMounts:
+          - name: cfgmap
+            mountPath: /var/lib/fantasticorp/config
+          - name: dev
+            mountPath: /dev
+          - name: run-sock
+            mountPath: /var/run/docker.sock
+          - name: run-pid
+            mountPath: /var/run/docker.pid
+          - name: sys
+            mountPath: /sys
+          - name: log
+            mountPath: /var/log
+          - name: passwd
+            mountPath: /etc/passwd
+            readOnly: true
+          - name: group
+            mountPath: /etc/group
+            readOnly: true
+          - name: hostfantasticorp
+            mountPath: /var/lib/fantasticorp/collector
+          - name: hostroot
+            mountPath: /fantasticorpfim
+            readOnly: true
+          - name: podinfo
+            mountPath: /etc/podinfo
+      volumes:
+        - name: dev
+          hostPath:
+              path: /dev
+        - name: run-sock
+          hostPath:
+              path: /var/run/docker.sock
+        - name: run-pid
+          hostPath:
+              path: /var/run/docker.pid
+        - name: sys
+          hostPath:
+              path: /sys
+        - name: log
+          hostPath:
+              path: /var/log
+        - name: passwd
+          hostPath:
+              path: /etc/passwd
+        - name: group
+          hostPath:
+              path: /etc/group
+        - name: hostroot
+          hostPath:
+              path: /
+        - name: hostfantasticorp
+          hostPath:
+              path: /var/lib/fantasticorp/collector
+        - name: cfgmap
+          configMap:
+            name: fantasticorp-config
+            items:
+            - key: config.json
+              path: config.json
+        - name: podinfo
+          downwardAPI:
+            items:
+              - path: "labels"
+                fieldRef:
+                  fieldPath: metadata.labels
+              - path: "annotations"
+                fieldRef:
+                  fieldPath: metadata.annotations
