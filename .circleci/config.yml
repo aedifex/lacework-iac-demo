@@ -42,7 +42,7 @@ jobs:
           command: |
             cd terraform/webserver-cluster/
             terraform init
-            terraform plan
+           # terraform plan
 
       # Save output to file called "tfapply"
       # and persist to workspace for subsequent jobs.
